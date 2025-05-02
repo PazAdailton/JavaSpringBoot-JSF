@@ -2,14 +2,18 @@ package br.com.pazimports.model;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 
 
@@ -21,7 +25,8 @@ public class Clliente {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	private String nome;
-	private String email;
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Contato> contatos = new ArrayList<Contato>();
 	@JoinColumn(name = "estado_id")
 	@ManyToOne
 	private Estado estado;
@@ -29,9 +34,10 @@ public class Clliente {
 	public Clliente() {
 		
 	}
-	public Clliente(String nome, String email) {
-		setEmail(email);
+	public Clliente(String nome, List<Contato> contatos, Estado estado) {
+		setContatos(contatos);
 		setNome(nome);
+		setEstado(estado);
 	}
 	
 	
@@ -47,25 +53,41 @@ public class Clliente {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
+
 	public Estado getEstado() {
 		return estado;
 	}
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
+	public List<Contato> getContatos() {
+		return contatos;
+	}
+	public void setContatos(List<Contato> contatos) {
+		this.contatos = contatos;
+	}
+	
+	public void addContato(Contato contato) {
+		
+		if(contato == null) {
+		   throw new IllegalArgumentException();
+		}
+		if(this.contatos == null || this.contatos.isEmpty()) {
+			this.contatos = new ArrayList<Contato>();
+		}else {
+			 contato.setCliente(this); 
+			 this.contatos.add(contato);
+		}	
+	}
+	
+	
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", nome=" + nome + ", email=" + email + "]";
+		return "Clliente [id=" + id + ", nome=" + nome + ", contatos" + contatos + ", estado=" + estado + "]";
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, estado, id, nome);
+		return Objects.hash(id);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -76,12 +98,7 @@ public class Clliente {
 		if (getClass() != obj.getClass())
 			return false;
 		Clliente other = (Clliente) obj;
-		return Objects.equals(email, other.email) && Objects.equals(estado, other.estado)
-				&& Objects.equals(id, other.id) && Objects.equals(nome, other.nome);
+		return Objects.equals(id, other.id);
 	}
 	
-	
-	
-	
-
 }

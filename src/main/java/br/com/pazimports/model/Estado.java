@@ -50,7 +50,7 @@ public class Estado {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, uf);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -62,9 +62,10 @@ public class Estado {
 		if (getClass() != obj.getClass())
 			return false;
 		Estado other = (Estado) obj;
-		return Objects.equals(id, other.id) && Objects.equals(uf, other.uf);
+		return Objects.equals(id, other.id);
 	}
 
+	
 
 	
 	

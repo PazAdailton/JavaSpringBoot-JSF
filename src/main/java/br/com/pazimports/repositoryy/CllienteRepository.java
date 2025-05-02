@@ -1,7 +1,6 @@
 package br.com.pazimports.repositoryy;
 
 import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,12 +11,19 @@ import br.com.pazimports.model.Clliente;
 @Repository
 public interface CllienteRepository extends JpaRepository<Clliente, Long> {
 	
-	@Query("select c from Clliente c where c.email=:email")
-	public Clliente buscarPorEmail(@Param("email")String email);
+//	@Query("select c from Clliente c where c.email=:email")
+//	public Clliente buscarPorEmail(@Param("email")String email);
 	
 	@Query("select c from Clliente c")
 	public List<Clliente> buscarTodos();
 	
+	@Query("SELECT c FROM Clliente c LEFT JOIN FETCH c.contatos WHERE c.id = :id")
+	public Clliente buscarComContatos(@Param("id") Long id);
+	
+	@Query("SELECT DISTINCT c FROM Clliente c LEFT JOIN FETCH c.contatos LEFT JOIN FETCH c.estado")
+	List<Clliente> buscarTodosComContatosEEstado();
+
+
 	//@Query("select c from Clliente c join estado e ")
 	//public List<Clliente> clientesComEstado();
 	
