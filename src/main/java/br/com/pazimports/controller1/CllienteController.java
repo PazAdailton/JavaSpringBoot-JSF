@@ -23,6 +23,7 @@ public class CllienteController {
 	
 	@Autowired
 	private ContatoRepository contatoRepository;
+
 	
 	private List<Contato> contatos = new ArrayList<Contato>();
 	private Contato contato;
@@ -38,10 +39,14 @@ public class CllienteController {
 		setContatos(contatoRepository.findAll());
 	}
 	
+	
+	
 	public void adicionarContato() {
+
 		Contato contato = new Contato();
-		contato.setDescricao(getDescricaoContato());
+		contato.setDescricao(descricaoContato);
 		contato.setCliente(cliente);
+		
 		cliente.getContatos().add(contato);
 		this.descricaoContato = "";
 	}
@@ -110,20 +115,28 @@ public class CllienteController {
 		this.descricaoContato = descricaoContato;
 	}
 
+
+
 	public List<Contato> getContatos() {
 		return contatos;
 	}
+
+
 
 	public void setContatos(List<Contato> contatos) {
 		this.contatos = contatos;
 	}
 
+
+
 	public Contato getContato() {
 		return contato;
 	}
 
+
+
 	public void setContato(Contato contato) {
 		this.contato = contato;
 	}
-	
+
 }

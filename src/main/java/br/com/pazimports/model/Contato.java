@@ -28,11 +28,11 @@ public class Contato {
 	private Cliente cliente;
 	
 	
-	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "contato" ,orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<TipoContato> tiposContatos = new ArrayList<>();
 	
 	public Contato() {
-		
+		  
 	}
 
 	public Integer getId() {

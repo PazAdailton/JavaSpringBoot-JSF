@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 
 
@@ -16,6 +18,12 @@ public class TipoContato {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
 	private String descricao;
+	
+	@ManyToOne
+	@JoinColumn(name = "contato_id")
+	private Contato contato;
+
+	
 	
 	
 	public Integer getId() {
@@ -31,6 +39,15 @@ public class TipoContato {
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	
+	
+	public Contato getContato() {
+		return contato;
+	}
+	public void setContato(Contato contato) {
+		this.contato = contato;
 	}
 	@Override
 	public int hashCode() {

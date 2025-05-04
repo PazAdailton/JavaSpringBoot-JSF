@@ -64,6 +64,9 @@ public class Cliente {
 		this.estado = estado;
 	}
 	public List<Contato> getContatos() {
+		 if (contatos == null) {
+	            contatos = new ArrayList<>();
+	        }
 		return contatos;
 	}
 	public void setContatos(List<Contato> contatos) {
