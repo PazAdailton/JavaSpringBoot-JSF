@@ -3,41 +3,39 @@ package br.com.pazimports.controller.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.pazimports.model.Estado;
-import br.com.pazimports.repositoryy.EstadoRepository;
+import br.com.pazimports.model.TipoContato;
+import br.com.pazimports.repositoryy.TipoContatoRepository;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.FacesConverter;
 
-
+@FacesConverter(forClass = TipoContato.class, managed = true)
 @Component
-public class EstadoConverter implements Converter<Object>{
-
+public class TipoContatoConverter implements Converter<Object> {
+	
 	@Autowired
-	private EstadoRepository estadoRepository;
+	private TipoContatoRepository tipoContatoRepositoty;
 	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		if(value.isEmpty()) return null;
 		try {
 			@SuppressWarnings("removal")
-			Estado estado = estadoRepository.findOne(new Integer(value));
-			return estado;
+			TipoContato tContato = tipoContatoRepositoty.findOne(new Integer(value));
+			return tContato;
 		} catch (Exception e) {
 			return null;
 		}
-	
 	}
 
-	
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
-		if(value instanceof Estado) {
-			Estado estado = (Estado) value;
-			return estado.getId().toString();
-		}else {
-			return null;
+		if(value instanceof TipoContato) {
+			TipoContato tContato = (TipoContato) value;
+			return tContato.getId().toString();
 		}
+		return null;
 	}
-	
+
 }

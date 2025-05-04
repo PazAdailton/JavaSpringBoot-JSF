@@ -43,15 +43,22 @@
 		</dependency>
 		
 		<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-jdbc</artifactId>
-	</dependency>
+    	<groupId>org.springframework.boot</groupId>
+    	<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
 
 		<dependency>
 		<groupId>org.jboss.weld.servlet</groupId>
 		<artifactId>weld-servlet-core</artifactId>
 		<version>5.1.0.Final</version>
 		</dependency>
+		
+		<dependency>
+    	<groupId>org.springframework.boot</groupId>
+    	<artifactId>spring-boot-devtools</artifactId>
+    	<scope>runtime</scope>
+		</dependency>
+
 
 	
 		
@@ -85,6 +92,7 @@
     	<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		
 <!--		<dependency>-->
@@ -122,12 +130,15 @@
 	</dependency>
 
 
-
-		 <dependency>
-		 	<groupId>br.com.pazimports</groupId>
-		 	<artifactId>apiwebatual</artifactId>
-		 	<version>0.0.1-SNAPSHOT</version>
-		 </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 
@@ -136,7 +147,27 @@
 			<plugin>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
 		</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

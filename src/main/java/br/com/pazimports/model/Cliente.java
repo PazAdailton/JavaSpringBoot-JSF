@@ -5,6 +5,7 @@ package br.com.pazimports.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,27 +15,29 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.Data;
 
 
 
 @Entity
-public class Clliente {
+@Data
+public class Cliente {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String nome;
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "cliente", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Contato> contatos = new ArrayList<Contato>();
 	@JoinColumn(name = "estado_id")
 	@ManyToOne
 	private Estado estado;
 	
-	public Clliente() {
+	public Cliente() {
 		
 	}
-	public Clliente(String nome, List<Contato> contatos, Estado estado) {
+	public Cliente(String nome, List<Contato> contatos, Estado estado) {
 		setContatos(contatos);
 		setNome(nome);
 		setEstado(estado);
@@ -67,19 +70,6 @@ public class Clliente {
 		this.contatos = contatos;
 	}
 	
-	public void addContato(Contato contato) {
-		
-		if(contato == null) {
-		   throw new IllegalArgumentException();
-		}
-		if(this.contatos == null || this.contatos.isEmpty()) {
-			this.contatos = new ArrayList<Contato>();
-		}else {
-			 contato.setCliente(this); 
-			 this.contatos.add(contato);
-		}	
-	}
-	
 	
 	@Override
 	public String toString() {
@@ -97,7 +87,7 @@ public class Clliente {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Clliente other = (Clliente) obj;
+		Cliente other = (Cliente) obj;
 		return Objects.equals(id, other.id);
 	}
 	

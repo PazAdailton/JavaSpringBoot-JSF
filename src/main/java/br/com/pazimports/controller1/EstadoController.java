@@ -1,4 +1,4 @@
-package br.com.pazimports.controller;
+package br.com.pazimports.controller1;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.pazimports.model.Estado;
 import br.com.pazimports.repositoryy.EstadoRepository;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.bean.ViewScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
 @Named

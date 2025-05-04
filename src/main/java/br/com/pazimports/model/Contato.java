@@ -2,14 +2,19 @@ package br.com.pazimports.model;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Contato {
@@ -20,7 +25,11 @@ public class Contato {
 	private String descricao;
 	@ManyToOne
 	@JoinColumn(name = "clliente_id")
-	private Clliente cliente;
+	private Cliente cliente;
+	
+	
+	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<TipoContato> tiposContatos = new ArrayList<>();
 	
 	public Contato() {
 		
@@ -42,21 +51,32 @@ public class Contato {
 		this.descricao = descricao;
 	}
 
-	public Clliente getCliente() {
+	public Cliente getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(Clliente cliente) {
+	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public String toString() {
+	    return this.descricao; 
 	}
 
-	
-	
+	public List<TipoContato> getTiposContatos() {
+		return tiposContatos;
+	}
+
+	public void setTiposContatos(List<TipoContato> tiposContatos) {
+		this.tiposContatos = tiposContatos;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cliente, descricao, id, tiposContatos);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -66,14 +86,12 @@ public class Contato {
 		if (getClass() != obj.getClass())
 			return false;
 		Contato other = (Contato) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(cliente, other.cliente) && Objects.equals(descricao, other.descricao)
+				&& Objects.equals(id, other.id) && Objects.equals(tiposContatos, other.tiposContatos);
 	}
-
-	@Override
-	public String toString() {
-	    return this.descricao; 
-	}
-
+	
+	
+	
 	
 	
 }

@@ -7,39 +7,35 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+
+
 @Entity
-public class Estado {
+public class TipoContato {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
-	private String uf;
+	private String descricao;
 	
 	
-	public Estado() {
-		
-	}
-
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getUf() {
-		return uf;
-	}
 
-	public void setUf(String uf) {
-		this.uf = uf;
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, uf);
+		return Objects.hash(descricao, id);
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -48,9 +44,9 @@ public class Estado {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Estado other = (Estado) obj;
-		return Objects.equals(id, other.id) && Objects.equals(uf, other.uf);
+		TipoContato other = (TipoContato) obj;
+		return Objects.equals(descricao, other.descricao) && Objects.equals(id, other.id);
 	}
 	
-
+	
 }

@@ -5,83 +5,95 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-<h:outputStylesheet library="css" name="style.css" />
+<h:outputStylesheet library="css" name="bootstrap.min.css" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+
 </h:head>
 <body>
-<h1> Cadastro de Cliente</h1>
+<h1 style="text-align: center; margin-left: 20px; position: left;"> Cadastro de Cliente</h1>
 
-<h:form id="frmCliente">
-	<h:panelGrid styleClass="form">
+<h:form class="form" id="frmCliente" autocomplete="off">
+	
+	<h:outputLabel value="Nome"></h:outputLabel>
+	<h:inputText value="#{cllienteController.cliente.nome}"></h:inputText>
+	
+	<h:outputLabel value="Descrição Contato"></h:outputLabel>
+	<h:inputText value="#{cllienteController.descricaoContato}" id="inputContato"></h:inputText>
+	
+	<h:commandButton value="+" action="#{cllienteController.adicionarContato}">
+	<f:ajax execute="frmCliente" render="frmCliente inputContato descricaoContato"/>
+	</h:commandButton>
+	
+	<h:dataTable border="1" value="#{cllienteController.cliente.contatos}" var="contato" id="descricaoContato">
+	   <h:column>
+	   <f:facet name="header">Descrição Contato</f:facet>
+	   #{contato.descricao}
+	   </h:column>
+	   
+	   <h:column>
+	   <h:commandButton value="-" action="#{cllienteController.removerContato(contato)}">
+	   <f:ajax render="frmCliente descricaoContato"></f:ajax>
+	   </h:commandButton>
+	   </h:column>
+	
+	</h:dataTable>
+	
+	<h:outputLabel value="Estado:" />
+	<h:selectOneMenu value="#{cllienteController.cliente.estado}"
+					 converter="#{estadoConverter}">
+		<f:selectItem noSelectionOption="true"
+					 itemLabel="Selecione..."/>
+		<f:selectItems value="#{estadoController.estados}" 
+					  var="e" itemLabel="#{e.uf}"/>
+	</h:selectOneMenu>
+	
+	<h:commandButton action="#{cllienteController.salvar}" value="Salvar">
+	<f:ajax execute="@form" render="frmCliente dtCliente"></f:ajax>
+	</h:commandButton>
+	
+	<h:commandButton rendered="#{cllienteController.modoEdicao}" action="#{cllienteController.cancelar}" value="Cancelar">
+	<f:ajax  render="frmCliente"></f:ajax>
+	</h:commandButton>
+	
+	
+	<h:dataTable border="1" value="#{cllienteController.clientes}" var="c" id="dtCliente">
+		<h:column>
+		<f:facet name="header">ID</f:facet>
+		#{c.id}
+		</h:column>
 		
-		<h:panelGroup styleClass="contato">
-		Nome:<h:inputText value="#{cllienteController.cliente.nome}" ></h:inputText>
-		Contato: <h:inputText id="inputContato" value="#{cllienteController.descricaoContato}" ></h:inputText>
+		<h:column>
+		<f:facet name="header">Nome</f:facet>
+		#{c.nome}
+		</h:column>
 		
-		<h:commandButton id="button1" value="+" action="#{cllienteController.adicionarContato}">
-			<f:ajax execute="inputContato" render="inputContato"></f:ajax>
+		<h:column>
+		<f:facet name="header">UF</f:facet>
+		#{c.estado.uf}
+		</h:column>
+		
+		<h:column>
+		<f:facet name="header">Descrição Contato</f:facet>
+		<ui:repeat var="contato" value="#{c.contatos}">
+		   <h:outputText value="#{contato.descricao}"/>
+		</ui:repeat>
+		</h:column>
+		
+		<h:column>
+		<f:facet name="header">Ação</f:facet>
+		<h:commandButton action="#{cllienteController.excluir(c)}" value="Excluir" onclick="return window.confirm('Certeza?')">
+		<f:ajax execute="@form" render="frmCliente dtCliente descricaoContato"></f:ajax>
 		</h:commandButton>
-    	
-    	<h:commandButton styleClass="button2" action="#{cllienteController.removerContato}" value="-">
-    					<f:ajax execute="@form" render="frmCliente" />
-    	</h:commandButton>
 		
+		<h:commandButton action="#{cllienteController.editar(c)}" value="Editar">
+		<f:ajax execute="frmCliente" render="frmCliente descricaoContato dtCliente"></f:ajax>
+		</h:commandButton>
+		</h:column>
+	
+	</h:dataTable>
+	
 
-	</h:panelGroup>
-		
-		<h:panelGroup>
-<!-- 		Nome Estado:<h:inputText value="#{cllienteController.estado.nome}"></h:inputText> -->
-<!-- 		UF:<h:inputText value="#{cllienteController.cliente.estado.uf}"></h:inputText> -->
-		Estado<h:selectOneMenu value="#{cllienteController.cliente.estado}" converter="#{estadoConverter}">
-			  <f:selectItem itemLabel="Selecione..." itemValue="#{null}" noSelectionOption="true" />
-			  <f:selectItems value="#{cllienteController.estados}" var="e" itemValue="#{e}" itemLabel="#{e.uf}" />
-			  </h:selectOneMenu>
-			  
-			   <h:commandButton action="#{cllienteController.salvar}" value="Salvar">
-			  	<f:ajax  execute="@form"  render="frmCliente"></f:ajax>
-			  </h:commandButton>
-			  
-			  <h:commandButton rendered="#{cllienteController.modoEdicao}" action="#{cllienteController.cancelar}" value="Cancelar">
-			  	<f:ajax  render="frmCliente"></f:ajax>
-			  </h:commandButton>
-		</h:panelGroup>
-		
-			 
-	</h:panelGrid>		 
-			  <h:dataTable border="1" value="#{cllienteController.clientes}" var="c" id="dtCliente"
-			  styleClass="tabela-com-borda">
-			  		<h:column>
-			  		<f:facet name="header">ID</f:facet>
-			  			#{c.id}
-			  		</h:column>
-			  		<h:column>
-			  		<f:facet name="header">Nome</f:facet>
-			  			#{c.nome}
-			  		</h:column>
-			  		<h:column>
-			  		<f:facet name="header">Contato</f:facet>
-			  		<ui:repeat value="#{c.contatos}" var="contato">
-			  			<h:outputText value="#{contato.descricao}"/> 
-			  		</ui:repeat>
-			  		</h:column>
-			  		
-			  		<h:column>
-			  		<f:facet name="header">Estado</f:facet>
-			  			#{c.estado.nome}
-			  		</h:column>
-			  		<h:column>
-			  		<f:facet name="header">UF</f:facet>
-			  			#{c.estado.uf}
-			  		</h:column>
-			  		<h:column>
-			  			<f:facet name="header">Ação</f:facet>
-			  			<h:commandButton action="#{cllienteController.excluir(c)}" value="Excluir" onclick="return confirm('certeza?')">
-			  			<f:ajax render="frmCliente"></f:ajax>
-			  			</h:commandButton>
-			  			<h:commandButton action="#{cllienteController.editar(c)}" value="Editar">
-			  			<f:ajax execute="@form" render="frmCliente"></f:ajax>
-			  			</h:commandButton>
-			  		</h:column>
-			  </h:dataTable>
 </h:form>
 </body>
 </html>
