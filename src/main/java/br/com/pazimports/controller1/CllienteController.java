@@ -57,7 +57,7 @@ public class CllienteController {
 	
 	public void editar(Cliente c) {
 		setModoEdicao(true);
-		this.cliente  = clienteRepository.findById(c.getId()).orElse(null);
+		this.cliente  = c;
 	}
 	
 	public void cancelar() {
