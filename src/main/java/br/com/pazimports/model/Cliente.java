@@ -73,11 +73,7 @@ public class Cliente {
 		this.contatos = contatos;
 	}
 	
-	
-	@Override
-	public String toString() {
-		return "Clliente [id=" + id + ", nome=" + nome + ", contatos" + contatos + ", estado=" + estado + "]";
-	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

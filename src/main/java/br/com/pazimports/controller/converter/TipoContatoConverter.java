@@ -8,34 +8,36 @@ import br.com.pazimports.repositoryy.TipoContatoRepository;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
-import jakarta.faces.convert.FacesConverter;
 
-@FacesConverter(forClass = TipoContato.class, managed = true)
+
 @Component
-public class TipoContatoConverter implements Converter<Object> {
-	
+public class TipoContatoConverter implements Converter<Object>{
+
 	@Autowired
-	private TipoContatoRepository tipoContatoRepositoty;
+	private TipoContatoRepository tipoContatoRepository;
 	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		if(value.isEmpty()) return null;
+		if(value == null || value.isEmpty()) return null;
 		try {
 			@SuppressWarnings("removal")
-			TipoContato tContato = tipoContatoRepositoty.findOne(new Integer(value));
-			return tContato;
+			TipoContato tipoContato = tipoContatoRepository.findById(new Integer(value)).orElse(null);
+			return tipoContato;
 		} catch (Exception e) {
 			return null;
 		}
+	
 	}
 
+	
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if(value instanceof TipoContato) {
-			TipoContato tContato = (TipoContato) value;
-			return tContato.getId().toString();
+			TipoContato tipoContato = (TipoContato) value;
+			return tipoContato.getId().toString();
+		}else {
+			return null;
 		}
-		return null;
 	}
-
+	
 }

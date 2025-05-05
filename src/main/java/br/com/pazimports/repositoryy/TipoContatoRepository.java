@@ -10,6 +10,7 @@ import br.com.pazimports.model.TipoContato;
 @Repository
 public interface TipoContatoRepository extends JpaRepository<TipoContato, Integer>{
 
-	@Query("select tContato from TipoContato tContato where tContato.id=: id")
+	@Query("select tContato from TipoContato tContato where tContato.id =: id")
 	public TipoContato findOne(@Param("id")Integer id);
 }
+

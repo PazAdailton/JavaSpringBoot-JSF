@@ -1,9 +1,9 @@
 package br.com.pazimports.controller1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import br.com.pazimports.model.TipoContato;
 import br.com.pazimports.repositoryy.TipoContatoRepository;
 import jakarta.annotation.PostConstruct;
@@ -18,22 +18,12 @@ public class TipoContatoController {
 	@Autowired
 	private TipoContatoRepository tipoContatoRepository;
 	
-	
-	private List<TipoContato> tiposContatos;
-	
-	private TipoContato tipoContato;
+	private List<TipoContato> tiposContatos = new ArrayList<TipoContato>();
+	private TipoContato tipoContato = new TipoContato();
 	
 	@PostConstruct
 	public void init() {
-		this.setTiposContatos(tipoContatoRepository.findAll());
-	}
-
-	public List<TipoContato> getTiposContatos() {
-		return tiposContatos;
-	}
-
-	public void setTiposContatos(List<TipoContato> tiposContatos) {
-		this.tiposContatos = tiposContatos;
+		setTiposContatos(tipoContatoRepository.findAll());
 	}
 
 	public TipoContato getTipoContato() {
@@ -42,6 +32,14 @@ public class TipoContatoController {
 
 	public void setTipoContato(TipoContato tipoContato) {
 		this.tipoContato = tipoContato;
+	}
+
+	public List<TipoContato> getTiposContatos() {
+		return tiposContatos;
+	}
+
+	public void setTiposContatos(List<TipoContato> tiposContatos) {
+		this.tiposContatos = tiposContatos;
 	}
 	
 }

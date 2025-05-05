@@ -19,29 +19,27 @@
 	<h:inputText value="#{cllienteController.cliente.nome}"></h:inputText>
 	
 	<h:outputLabel value="Descrição Contato"></h:outputLabel>
-	<h:inputText value="#{cllienteController.descricaoContato}" id="inputContato"></h:inputText>
+	<h:inputText value="#{cllienteController.contato.descricao}" id="inputContato"></h:inputText>
 	
 	<h:outputLabel value="Tipo Contato:"/>
-	<h:selectOneMenu value="#{tipoContatoController.tipoContato}"
+	<h:selectOneMenu value="#{cllienteController.contato.tipoContato}"
 					 converter="#{tipoContatoConverter}"
 					 id="selectTipoContato">
 	  	<f:selectItem noSelectionOption="true"
 	  				  itemLabel="Selecione..." />
 	  	<f:selectItems value="#{tipoContatoController.tiposContatos}"
-	  				  var="t" itemLabel="#{t.descricao}"  />
+	  				  var="t" itemLabel="#{t.descricao}" itemValue="#{t}"  />
 	</h:selectOneMenu>
 	
 	<h:commandButton value="+" action="#{cllienteController.adicionarContato}">
-	<f:ajax execute="@form" render="frmCliente inputContato selectTipoContato"/>
+	<f:ajax execute="@form" render="frmCliente selectTipoContato inputContato  descricaoContato"/>
 	</h:commandButton>
 	
 	<h:dataTable border="1" value="#{cllienteController.cliente.contatos}" var="contato" id="descricaoContato">
 	   
 	   <h:column>
 	   <f:facet name="header">Tipo Contato</f:facet>
-	   <ui:repeat var="tipo" value="#{contato.tiposContatos}">
-	   	#{tipo.descricao}"
-	   </ui:repeat>
+	   	#{contato.tipoContato.descricao}
 	   </h:column>
 	   
 	   <h:column>
@@ -51,7 +49,7 @@
 	   
 	   <h:column>
 	   <h:commandButton value="-" action="#{cllienteController.removerContato(contato)}">
-	   <f:ajax render="frmCliente descricaoContato"></f:ajax>
+	   <f:ajax execute="@form" render="frmCliente inputContato dtCliente descricaoContato"></f:ajax>
 	   </h:commandButton>
 	   </h:column>
 	
@@ -61,7 +59,8 @@
 	<h:selectOneMenu value="#{cllienteController.cliente.estado}"
 					 converter="#{estadoConverter}">
 		<f:selectItem noSelectionOption="true"
-					 itemLabel="Selecione..."/>
+					 itemLabel="Selecione..."
+					 itemValue=""/>
 		<f:selectItems value="#{estadoController.estados}" 
 					  var="e" itemLabel="#{e.uf}"/>
 	</h:selectOneMenu>
@@ -105,7 +104,7 @@
 		</h:commandButton>
 		
 		<h:commandButton action="#{cllienteController.editar(c)}" value="Editar">
-		<f:ajax execute="frmCliente" render="frmCliente descricaoContato dtCliente"></f:ajax>
+		<f:ajax execute="@form" render="frmCliente descricaoContato dtCliente"></f:ajax>
 		</h:commandButton>
 		</h:column>
 	

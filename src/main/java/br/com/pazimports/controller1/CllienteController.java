@@ -1,14 +1,10 @@
 package br.com.pazimports.controller1;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import br.com.pazimports.model.Cliente;
 import br.com.pazimports.model.Contato;
 import br.com.pazimports.repositoryy.ClienteRepository;
-import br.com.pazimports.repositoryy.ContatoRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
@@ -21,13 +17,8 @@ public class CllienteController {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
-	@Autowired
-	private ContatoRepository contatoRepository;
+	private Contato contato = new Contato();
 
-	
-	private List<Contato> contatos = new ArrayList<Contato>();
-	private Contato contato;
-	private String descricaoContato;
 	
 	private Cliente cliente = new Cliente();
 	private List<Cliente> clientes;
@@ -36,19 +27,15 @@ public class CllienteController {
 	@PostConstruct
 	public void init() {
 		clientes = clienteRepository.findAll();
-		setContatos(contatoRepository.findAll());
 	}
 	
 	
 	
 	public void adicionarContato() {
 
-		Contato contato = new Contato();
-		contato.setDescricao(descricaoContato);
 		contato.setCliente(cliente);
-		
 		cliente.getContatos().add(contato);
-		this.descricaoContato = "";
+		contato = new Contato();
 	}
 	
 	public void removerContato(Contato c) {
@@ -70,7 +57,7 @@ public class CllienteController {
 	
 	public void editar(Cliente c) {
 		setModoEdicao(true);
-		this.cliente = c;
+		this.cliente  = clienteRepository.findById(c.getId()).orElse(null);
 	}
 	
 	public void cancelar() {
@@ -107,36 +94,13 @@ public class CllienteController {
 		this.modoEdicao = modoEdicao;
 	}
 
-	public String getDescricaoContato() {
-		return descricaoContato;
-	}
-
-	public void setDescricaoContato(String descricaoContato) {
-		this.descricaoContato = descricaoContato;
-	}
-
-
-
-	public List<Contato> getContatos() {
-		return contatos;
-	}
-
-
-
-	public void setContatos(List<Contato> contatos) {
-		this.contatos = contatos;
-	}
-
-
-
 	public Contato getContato() {
 		return contato;
 	}
 
-
-
 	public void setContato(Contato contato) {
 		this.contato = contato;
 	}
+
 
 }
